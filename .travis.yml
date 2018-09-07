@@ -1,6 +1,13 @@
 sudo: required
 dist: trusty
 language: java
+before_install:
+-sudo apt-get install cmake
+-sudo apt-get install libpthread-stubs0-dev
+-sudo apt-get install numactl
+before_script:
+-cd /tmp && git clone https://github.com/memkind/memkind.git && cd memkind
+-./build.sh
 script:
-- mvn clean -Pspark-2.1 test
-- mvn clean -Pspark-2.2 test
+- mvn clean -DskipTests -Pspark-2.1 -Ppersistent-memory test
+- mvn clean -DskipTests -Pspark-2.2 -Ppersistent-memory test
